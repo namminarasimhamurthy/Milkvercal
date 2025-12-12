@@ -1,0 +1,155 @@
+/* Base Styles */
+body {
+  background: linear-gradient(135deg, #f0f4f8, #d9e4f5);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Heading */
+.dashboard-container h2 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+/* Buttons */
+.dashboard-container .btn {
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+/* Glass Cards */
+.glass-card {
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.glass-card h6 {
+  font-size: 1rem;
+  opacity: 0.85;
+  margin-bottom: 10px;
+}
+
+.glass-card h2 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Table Styling */
+.table {
+  font-size: 0.95rem;
+  background-color: #fff;
+  margin: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table th,
+.table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 0.8rem;
+}
+
+.table thead {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Badges */
+.badge {
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 12px;
+}
+
+/* Inventory List */
+.list-group-item {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 14px 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Card */
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-header {
+  font-weight: 600;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 15px;
+  }
+
+  .dashboard-container h2 {
+    font-size: 2rem;
+  }
+
+  .glass-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .table {
+    font-size: 0.85rem;
+  }
+
+  .btn {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  /* Force full width & stacked layout on smaller screens */
+  .d-flex.flex-column.flex-md-row {
+    flex-direction: column !important;
+  }
+
+  .d-flex.flex-column.flex-md-row .btn {
+    width: 100%;
+  }
+}
+.back-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+
+.back-btn:hover {
+  background-color: #dee2e6;
+  color: #000;
+}
+
+
+

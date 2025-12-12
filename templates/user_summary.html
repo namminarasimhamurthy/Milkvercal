@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Summary - {{ user.name }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      padding: 20px;
+      background-color: #f5f9ff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .summary-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .summary-title {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .form-inline {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    @media (max-width: 576px) {
+      .form-inline {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .form-inline .form-select,
+      .form-inline .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="summary-box container">
+  <h2 class="text-primary mb-4">📋 Payment Summary for {{ user.name }}</h2>
+
+  <div class="row mb-4">
+    <div class="col-md-6 col-sm-12 mb-3 mb-md-0">
+      <p><strong>Total Amount:</strong> ₹{{ total_amount }}</p>
+      <p><strong>Total Paid:</strong> ₹{{ total_paid }}</p>
+      <p><strong>Pending Amount:</strong> ₹{{ pending_amount }}</p>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <p><strong>Mobile:</strong> {{ user.mobile }}</p>
+      <p><strong>Address:</strong> {{ user.address }}</p>
+      <p><strong>Shift:</strong> {{ user.shift }}</p>
+    </div>
+  </div>
+
+  <h5 class="mb-3">📅 Date-wise Payment Details</h5>
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Date</th>
+          <th>Milk (L)</th>
+          <th>Amount (₹)</th>
+          <th>Status</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in records %}
+        <tr>
+          <td>{{ record.date }}</td>
+          <td>{{ record.milk_quantity }}</td>
+          <td>{{ record.amount }}</td>
+          <td>
+            {% if record.status == 'paid' %}
+              <span class="badge bg-success">Paid</span>
+            {% elif record.status == 'pending' %}
+              <span class="badge bg-warning text-dark">Pending</span>
+            {% else %}
+              <span class="badge bg-danger">Unpaid</span>
+            {% endif %}
+          </td>
+          <td>
+            <form method="post" action="{% url 'update_status' record.id %}" class="form-inline">
+              {% csrf_token %}
+              <select name="status" class="form-select form-select-sm">
+                <option value="paid" {% if record.status == 'paid' %}selected{% endif %}>Paid</option>
+                <option value="pending" {% if record.status == 'pending' %}selected{% endif %}>Pending</option>
+                <option value="unpaid" {% if record.status == 'unpaid' %}selected{% endif %}>Unpaid</option>
+              </select>
+              <button type="submit" class="btn btn-sm btn-primary">Update</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <a href="{% url 'user_list' %}" class="btn btn-secondary mt-3">⬅ Back to User List</a>
+</div>
+
+<!-- Bootstrap JS Bundle (optional for dropdowns/modals) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

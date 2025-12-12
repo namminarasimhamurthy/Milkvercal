@@ -1,0 +1,337 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Milk Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #f0f4f8, #d9e4f5);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .dashboard-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .dashboard-container h2 {
+      font-size: 2.5rem;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      font-weight: 500;
+      padding: 10px 16px;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+
+    .glass-card {
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    }
+
+    .glass-card h6 {
+      font-size: 1rem;
+      opacity: 0.85;
+      margin-bottom: 10px;
+    }
+
+    .glass-card h2 {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .table {
+      font-size: 0.95rem;
+      background-color: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .table th,
+    .table td {
+      text-align: center;
+      vertical-align: middle;
+      padding: 0.8rem;
+    }
+
+    .table thead {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .badge {
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 12px;
+    }
+
+    .list-group-item {
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 14px 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .card {
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      font-weight: 600;
+    }
+
+    .btn-viewall-sm {
+      font-size: 0.85rem;
+      padding: 0.2rem 0.6rem !important;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 15px;
+      }
+
+      .dashboard-container h2 {
+        font-size: 2rem;
+      }
+
+      .glass-card h2 {
+        font-size: 1.5rem;
+      }
+
+      .table {
+        font-size: 0.85rem;
+      }
+
+      .btn {
+        font-size: 0.95rem;
+        padding: 10px;
+      }
+    }
+
+    .back-btn {
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background-color: #dee2e6;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid py-3 px-3 px-md-5">
+  <div class="row align-items-center">
+    <div class="col-4 col-md-2">
+      <a href="{% url 'index' %}" class="btn btn-outline-secondary w-100">🔙 Back</a>
+    </div>
+    <div class="col-8 col-md-8 text-center mx-auto">
+      <h2 class="fw-bold m-0">🥛 FreshMilk Co. Admin Panel</h2>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid py-4 px-3 px-md-5 dashboard-container">
+
+  <!-- Action Buttons -->
+  <div class="d-flex flex-row justify-content-center gap-3 mb-4">
+    <a href="{% url 'adduser' %}" class="btn btn-outline-primary btn-sm w-auto">➕ Add user</a>
+    <button onclick="location.reload()" class="btn btn-outline-dark btn-sm w-auto">🔄 Refresh</button>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="row g-4 mb-5">
+    <div class="col-6 col-md-3">
+      <div class="glass-card bg-primary text-white text-center p-3 rounded">
+        <h6>Total Users</h6>
+        <h2>{{ total_orders }}</h2>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="glass-card bg-success text-white text-center p-3 rounded">
+        <h6>Total Revenue</h6>
+        <h2>₹{{ total_revenue }}</h2>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="glass-card bg-info text-white text-center p-3 rounded">
+        <h6>Received Amount</h6>
+        <h2>₹{{ received_amount }}</h2>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="glass-card bg-warning text-dark text-center p-3 rounded">
+        <h6>pending amount</h6>
+        <h2>₹{{ pending_amount }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Orders -->
+  <div class="card mb-5 shadow-sm">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">📋 Recent Orders</h5>
+      <a href="{% url 'all_orders' %}" class="btn btn-light btn-sm px-2 py-1 btn-viewall-sm">View All</a>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-hover text-center">
+        <thead class="table-primary">
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Liters</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in recent_orders %}
+          <tr>
+            <td>#{{ order.id }}</td>
+            <td>{{ order.user.name }}</td>
+            <td>{{ order.milk_quantity }}L</td>
+            <td>
+              {% if order.status == "paid" %}
+              <span class="badge bg-success">Paid</span>
+              {% elif order.status == "pending" %}
+              <span class="badge bg-warning text-dark">Pending</span>
+              {% else %}
+              <span class="badge bg-danger">Unpaid</span>
+              {% endif %}
+            </td>
+            <td>{{ order.date }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-muted">No recent orders available.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Inventory -->
+  <div class="card shadow-sm mb-5">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0">📦 Inventory Status</h5>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        {% for item, qty in inventory.items %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ item }}
+          <span class="badge bg-dark rounded-pill">{{ qty }}</span>
+        </li>
+        {% empty %}
+        <li class="list-group-item text-muted">No inventory data available.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Filter by Customer -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-secondary text-white">
+      <h5 class="mb-0">🔍 View Records by Customer</h5>
+    </div>
+    <div class="card-body">
+      <form method="GET" class="row g-3">
+        <div class="col-md-6">
+          <select name="user_id" class="form-select" onchange="this.form.submit()">
+            <option value="">-- Select Customer --</option>
+            {% for user in all_users %}
+              <option value="{{ user.id }}" {% if user.id|stringformat:"s" == selected_user_id %}selected{% endif %}>
+                {{ user.name }} ({{ user.shift }})
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <button class="btn btn-primary" type="submit">🔍 Filter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Filtered Milk Records -->
+  {% if selected_user_records %}
+  <div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+      <h5 class="mb-0">📅 Milk Records</h5>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-bordered table-hover text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>Date</th>
+            <th>Milk (L)</th>
+            <th>Amount (₹)</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for rec in selected_user_records %}
+          <tr>
+            <td>{{ rec.date }}</td>
+            <td>{{ rec.milk_quantity }}</td>
+            <td>₹{{ rec.amount }}</td>
+            <td>
+              {% if rec.status == "paid" %}
+              <span class="badge bg-success">Paid</span>
+              {% elif rec.status == "pending" %}
+              <span class="badge bg-warning text-dark">Pending</span>
+              {% else %}
+              <span class="badge bg-danger">Unpaid</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% elif selected_user_id %}
+    <p class="text-muted text-center">No records found for this user.</p>
+  {% endif %}
+</div>
+
+<!-- Bootstrap Bundle JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
