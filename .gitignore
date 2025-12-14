@@ -1,0 +1,2 @@
+Add-Content .gitignore "__pycache__/"
+Add-Content .gitignore "*.pyc"
