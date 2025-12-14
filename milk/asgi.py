@@ -4,7 +4,7 @@ from mangum import Mangum
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "milk.settings")
 
-application = get_asgi_application()
+django_asgi_app = get_asgi_application()
 
-# ✅ THIS IS THE KEY FIX
-app = Mangum(application)
+# ✅ THIS is what Vercel expects
+handler = Mangum(django_asgi_app)
